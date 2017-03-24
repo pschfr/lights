@@ -1,42 +1,64 @@
 #!/usr/bin/python
 """This module controls my Philips Hue lights."""
 
+import sys               # import system functions
 import logging           # import logging
 from phue import Bridge  # import Bridge from phue.py
 
 logging.basicConfig()    # initates console logging
 BRIDGE = Bridge('10.0.0.215') # connects to the philips hue bridge
 
-print 'Connected to Philips Hue Bridge\n'
+# If no arguments, print intro
+if len(sys.argv) == 1:
+    print '\033[94m\033[1mConnected to Philips Hue Bridge\033[0m\n'
 
-WHICH = raw_input('Which lights? (Both, Landing, or Bedroom) ')
-STATE = raw_input('On or off? ')
+    # Check light status, display right info
+    if BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on') is False:
+        print 'None of your lights are on.\n'
+    elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on') is False:
+        print 'Your bedroom light is on.\n'
+    elif BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on'):
+        print 'Your landing light is on.\n'
+    elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on'):
+        print 'All your lights are on.\n'
 
-if STATE == 'on' or STATE == '1' or STATE == '': # if on, ask for brightness
-    BRIGHTNESS = raw_input('Brightness? (1-255) ')
-    if BRIGHTNESS == '':
+    # Ask for lights to modify and how
+    WHICH = raw_input('\033[1mWhich lights? (Both, Landing, or Bedroom) \033[0m')
+    STATE = raw_input('\033[1mOn or off? \033[0m')
+elif len(sys.argv) > 1: # if it has arguments, set them
+    WHICH = sys.argv[1]
+    STATE = sys.argv[2]
+    try:
+        BRIGHTNESS = int(sys.argv[3])
+    except IndexError:
+        BRIGHTNESS = 255
+    except ValueError:
         BRIGHTNESS = 255
 
+if STATE == 'on' or STATE == '1' or STATE == '': # if on, ask for brightness
+    if len(sys.argv) == 1:
+        BRIGHTNESS = raw_input('Brightness? (1-255) ')
+        if BRIGHTNESS == '':
+            BRIGHTNESS = 255
+
     if WHICH == 'both' or WHICH == '2' or WHICH == '':
-        for LIGHT in BRIDGE.lights:
-            LIGHT.on = True
-            LIGHT.brightness = int(BRIGHTNESS)
+        BRIDGE.set_light([1, 2], 'on', True)
+        BRIDGE.set_light([1, 2], 'bri', int(BRIGHTNESS))
 
-    elif WHICH == 'bedroom' or WHICH == 'bed' or WHICH == 'b' or WHICH == '0':
-        BRIDGE.lights[0].on = True
-        BRIDGE.lights[0].brightness = int(BRIGHTNESS)
+    elif WHICH == 'bedroom' or WHICH == 'bed' or WHICH == 'b' or WHICH == '1':
+        BRIDGE.set_light(1, 'on', True)
+        BRIDGE.set_light(1, 'bri', int(BRIGHTNESS))
 
-    elif WHICH == 'landing' or WHICH == 'l' or WHICH == '1':
-        BRIDGE.lights[1].on = True
-        BRIDGE.lights[1].brightness = int(BRIGHTNESS)
+    elif WHICH == 'landing' or WHICH == 'l' or WHICH == '2':
+        BRIDGE.set_light(2, 'on', True)
+        BRIDGE.set_light(2, 'bri', int(BRIGHTNESS))
 
 elif STATE == 'off' or STATE == '0':
-    if WHICH == 'both' or WHICH == '2' or WHICH == '':
-        for LIGHT in BRIDGE.lights:
-            LIGHT.on = False
+    if WHICH == 'both' or WHICH == '3' or WHICH == '':
+        BRIDGE.set_light([1, 2], 'on', False)
 
     elif WHICH == 'bedroom' or WHICH == 'bed' or WHICH == 'b' or WHICH == '0':
-        BRIDGE.lights[0].on = False
+        BRIDGE.set_light(1, 'on', False)
 
     elif WHICH == 'landing' or WHICH == 'l' or WHICH == '1':
-        BRIDGE.lights[1].on = False
+        BRIDGE.set_light(2, 'on', False)
