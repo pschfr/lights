@@ -2,10 +2,8 @@
 """This module controls my Philips Hue lights."""
 
 import sys               # import system functions
-import logging           # import logging
 from phue import Bridge  # import Bridge from phue.py
 
-logging.basicConfig()    # initiates console logging
 BRIDGE = Bridge('10.0.0.215') # connects to the philips hue bridge
 
 # If no arguments, print intro
