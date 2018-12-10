@@ -25,7 +25,11 @@ if len(sys.argv) == 1:
     # Ask for lights to modify and how
     WHICH = raw_input('\033[1mWhich lights? (Both, Bedroom, or Seahorse) \033[0m')
     STATE = raw_input('\033[1mOn or off? \033[0m')
-elif len(sys.argv) > 1: # if it has arguments, set them
+elif len(sys.argv) == 2: # if it has arguments, set them
+    STATE = sys.argv[1]
+    WHICH = 'both'
+    BRIGHTNESS = 255
+elif len(sys.argv) > 2:
     WHICH = sys.argv[1]
     STATE = sys.argv[2]
     try:
