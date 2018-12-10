@@ -4,4 +4,6 @@ A small Python script to control my Philips Hue lights using [studioimaginaire/p
 
 Clone and change the local IP of your Bridge.
 
+Also, don't forget to run `pip install phue`.
+
 ![Screenshot](screenshot.png)
