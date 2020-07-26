@@ -14,14 +14,14 @@ if len(sys.argv) == 1:
     if BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on') is False:
         print('None of your lights are on.\n')
     elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on') is False:
-        print('Your seahorse light is on.\n')
+        print('Your kitchen light is on.\n')
     elif BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on'):
         print('Your bedroom light is on.\n')
     elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on'):
         print('All your lights are on.\n')
 
     # Ask for lights to modify and how
-    WHICH = input('\033[1mWhich lights? (Both, Bedroom, or Seahorse) \033[0m')
+    WHICH = input('\033[1mWhich lights? (Both, Bedroom, or Kitchen) \033[0m')
     STATE = input('\033[1mOn or off? \033[0m')
 elif len(sys.argv) == 2: # if it has arguments, set them
     STATE = sys.argv[1]
@@ -47,7 +47,7 @@ if STATE == 'on' or STATE == '1' or STATE == '': # if on, ask for brightness
         BRIDGE.set_light([1, 2], 'on', True)
         BRIDGE.set_light([1, 2], 'bri', int(BRIGHTNESS))
 
-    elif WHICH == 'seahorse' or WHICH == 'sea' or WHICH == 's' or WHICH == '1':
+    elif WHICH == 'kitchen' or WHICH == 'kit' or WHICH == 'k' or WHICH == '1':
         BRIDGE.set_light(1, 'on', True)
         BRIDGE.set_light(1, 'bri', int(BRIGHTNESS))
 
@@ -59,8 +59,8 @@ elif STATE == 'off' or STATE == '0':
     if WHICH == 'both' or WHICH == '3' or WHICH == '':
         BRIDGE.set_light([1, 2], 'on', False)
 
-    elif WHICH == 'seahorse' or WHICH == 'sea' or WHICH == 's' or WHICH == '0':
+    elif WHICH == 'kitchen' or WHICH == 'kit' or WHICH == 'k' or WHICH == '0':
         BRIDGE.set_light(1, 'on', False)
 
-    elif WHICH == 'landing' or WHICH == 'bed' or WHICH == 'b' or WHICH == '1':
+    elif WHICH == 'bedroom' or WHICH == 'bed' or WHICH == 'b' or WHICH == '1':
         BRIDGE.set_light(2, 'on', False)
