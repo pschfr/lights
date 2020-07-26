@@ -1,28 +1,28 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """This module controls my Philips Hue lights."""
 
 import sys               # import system functions
-from phue import Bridge  # import Bridge from phue.py
+from phue import Bridge  # import Bridge from phue
 
 BRIDGE = Bridge('10.0.0.215') # connects to the philips hue bridge
 
 # If no arguments, print intro
 if len(sys.argv) == 1:
-    print '\033[94m\033[1mConnected to Philips Hue Bridge\033[0m\n'
+    print('\033[94m\033[1mConnected to Philips Hue Bridge\033[0m\n')
 
     # Check light status, display right info
     if BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on') is False:
-        print 'None of your lights are on.\n'
+        print('None of your lights are on.\n')
     elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on') is False:
-        print 'Your seahorse light is on.\n'
+        print('Your seahorse light is on.\n')
     elif BRIDGE.get_light(1, 'on') is False and BRIDGE.get_light(2, 'on'):
-        print 'Your bedroom light is on.\n'
+        print('Your bedroom light is on.\n')
     elif BRIDGE.get_light(1, 'on') and BRIDGE.get_light(2, 'on'):
-        print 'All your lights are on.\n'
+        print('All your lights are on.\n')
 
     # Ask for lights to modify and how
-    WHICH = raw_input('\033[1mWhich lights? (Both, Bedroom, or Seahorse) \033[0m')
-    STATE = raw_input('\033[1mOn or off? \033[0m')
+    WHICH = input('\033[1mWhich lights? (Both, Bedroom, or Seahorse) \033[0m')
+    STATE = input('\033[1mOn or off? \033[0m')
 elif len(sys.argv) == 2: # if it has arguments, set them
     STATE = sys.argv[1]
     WHICH = 'both'
@@ -39,7 +39,7 @@ elif len(sys.argv) > 2:
 
 if STATE == 'on' or STATE == '1' or STATE == '': # if on, ask for brightness
     if len(sys.argv) == 1:
-        BRIGHTNESS = raw_input('Brightness? (1-255) ')
+        BRIGHTNESS = input('Brightness? (1-255) ')
         if BRIGHTNESS == '':
             BRIGHTNESS = 255
 
